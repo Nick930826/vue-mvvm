@@ -91,6 +91,15 @@ CompileUtil = {
 			return this.getValue(vm, arguments[1].trim())
 		})
 	},
+	setValue (vm, expr, value) {
+		expr = expr.split('.')
+		return expr.reduce((prev, next, currentIndex) => {
+			if (currentIndex == (expr.length - 1)) {
+				return prev[next] = value
+			}
+			return prev[next]
+		}, vm.$data)
+	},
 	text (node, vm, expr) {
 		// 文本处理
 		let value = this.getTextValue(vm, expr)
@@ -105,6 +114,7 @@ CompileUtil = {
 				/*this.updater.textUpdater(node, newValue)
 				如果这样赋值的话 {{ message.a }} 和 {{ message.b }}
 				都会被覆盖掉，比如：message.b = 100，页面上的text节点会被100覆盖掉*/
+				console.log('执行cb')
 				this.updater.textUpdater(node, this.getTextValue(vm, expr))
 			})
 		})
@@ -118,6 +128,12 @@ CompileUtil = {
 			this.updater.modelUpdater(node, newValue)
 		})
 		this.updater.modelUpdater(node, value)
+
+		node.addEventListener('input', (e) => {
+			// 这边是需要改变vm.$data	的值，才能出发到页面的观察者
+			let newValue = e.target.value
+			this.setValue(vm, expr, newValue)
+		})
 	},
 	updater: {
 		// 文本更新
