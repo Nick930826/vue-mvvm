@@ -5,16 +5,17 @@
 </head>
 <body>
 	<div id="app">
+		<label>用户名</label>
+		<input type="text" v-model="username">
 		<div>
 			<ul>
-				<li></li>
-				<li></li>
+				<li><span>{{ username }}</span></li>
 			</ul>
 		</div>
-		<p>你说呢</p>
-		<input type="text" v-model="message.a">
-		{{ message.a }}
-		{{ message.b }}
+		{{ username }}
+		<label>密码</label>
+		<input type="text" v-model="password">
+		{{ password }}
 	</div>
 	<script src='watch.js'></script>
 	<script src='observer.js'></script>
@@ -24,10 +25,8 @@
 		var vm = new MVVM({
 			el: '#app',
 			data: {
-				message: {
-					a: '你好',
-					b: '她好'
-				}
+				username: '',
+				password: ''
 			}
 		})
 	</script>

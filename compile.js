@@ -61,6 +61,8 @@ class Compile {
 			if (this.isElementNode(node)) {
 				// 元素节点
 				this.complieElement(node)
+				// 深层编译元素节点下的节点
+				this.compile(node)
 			} else {
 				// 文本节点
 				this.compileText(node)
